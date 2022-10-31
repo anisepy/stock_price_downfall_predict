@@ -12,8 +12,10 @@ def downturn(df):
     df = df.merge(df_scaled, how="left")
 
     for i in range(len(df) - 1):  # making the slope columns
-        df.loc[i + 1, "price_slope"] = df.iloc[i + 1, 3] - df.iloc[i, 3]  # C_5
-        df.loc[i + 1, "kospi_slope"] = df.iloc[i + 1, 4] - df.iloc[i, 4]  # C_6
+        for j in range(1, 3):
+            df.loc[i + 1, f"{df.columns[j]}_slope"] = (
+                df.iloc[i + 1, j + 2] - df.iloc[i, j + 2]
+            )  # C_5
     df = df.bfill()
     for i in range(len(df)):  # making the downturn(y) column
         if df.loc[i, "price_slope"] < df.loc[i, "kospi_slope"]:
