@@ -4,13 +4,11 @@ import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 
 
-def yfloader(stock_code: str, start_day: str, end_day: str) -> pd.DataFrame:
+def yfloader(stock_code: str, start_d: str, end_d: str) -> pd.DataFrame:
 
     yf.pdr_override()
     # 해당 종목의 종가 데이터 불러오기
-    df = pdr.get_data_yahoo(
-        [stock_code, "^KS11"], start=start_day, end=end_day
-    )
+    df = pdr.get_data_yahoo([stock_code, "^KS11"], start=start_d, end=end_d)
     df = df.reset_index()
     df = df[["Date", "Close"]]
     df.columns = ["date", "price", "kospi지수"]
@@ -59,19 +57,3 @@ def yfloader(stock_code: str, start_day: str, end_day: str) -> pd.DataFrame:
 
 if __name__ == "__main__":  # pragma: no cover
     yfloader()
-
-# def load_train():
-#     data = pd.read_csv('data/emart_downturn.csv')
-#     target = 'winPlacePerc'
-#     df = data.copy()
-#     # df = df.dropna()
-#     # df = df.drop(['matchType','Id','matchId','groupId','killPlace'],axis=1)
-
-#     return df, target
-
-# def load_test():
-#     test = pd.read_csv('./data/test_V2.csv')
-
-#     submission = pd.read_csv("./data/sample_submission_V2.csv")
-
-#     return test, submission
